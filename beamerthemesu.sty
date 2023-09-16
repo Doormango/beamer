@@ -188,7 +188,7 @@
 	\useasboundingbox[fill=white] (0,0) rectangle (\the\paperwidth,0.9cm);
 
 	% Helper variables
-	\def\r{0.30}; % radius of slide wheel
+	\def\r{0.30} % radius of slide wheel
 	\def\f{\insertframenumber}
 	\def\t{\inserttotalframenumber}
 
@@ -231,7 +231,7 @@
 	\begin{tikzpicture}
 
 	% Colored rectangles
-	\def\h{10pt}; % foot line height
+	\def\h{10pt} % foot line height
 	\useasboundingbox[fill=LightGrey] (0,0) rectangle (\paperwidth,\h);
 	\fill[SUMaroon] (0pt,0pt) rectangle (\paperwidth/4,\h);
 
@@ -259,7 +259,7 @@
 	\tikzset{heading/.style = {anchor=base west,text width=\paperwidth}}
 
 	% Title card
-	\def\h{4.5cm}; % title card height
+	\def\h{4.5cm} % title card height
 	\useasboundingbox (0,0) rectangle (\textwidth,\h);
 	\draw[SUGold,line width=3,rounded corners=1mm] (0,3.0cm) -- (0,\h) -- (3cm,\h);
 	\draw[SUGold,line width=3,rounded corners=1mm] (\textwidth,1.5cm) -- (\textwidth,0) -- (\textwidth-3cm,0);
