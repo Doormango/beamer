@@ -1,0 +1,288 @@
+\mode<presentation>
+
+\RequirePackage{tikz}
+\RequirePackage{fontawesome}
+\RequirePackage{datetime}
+
+% Prevent externalizing beamer theme content (https://tex.stackexchange.com/a/295985)
+\AtBeginDocument{%
+\providecommand\tikzexternaldisable{\relax}%
+\providecommand\tikzexternalenable{\relax}%
+}
+
+%-----------------------------------------------------------------------------------------
+% GENERAL
+%-----------------------------------------------------------------------------------------
+
+% Path for figures
+\graphicspath{{figures/}}
+
+% Date styling
+\newdateformat{monthyeardate}{\monthname[\THEMONTH] \THEYEAR}
+\let\oldtoday\today
+\renewcommand{\today}{\monthyeardate\oldtoday}
+
+% Citation styling
+\RequirePackage[nodoi]{apacite}
+\bibliographystyle{apacann}
+\renewcommand{\cite}[1]{\shortciteauthorA{#1}~\citeyear{#1}}
+
+%-----------------------------------------------------------------------------------------
+% CUSTOM COMMANDS
+%-----------------------------------------------------------------------------------------
+
+% Inline horizontally-padded arrow
+\NewDocumentCommand{\becomes}{s}{%
+\ensuremath{\quad\IfBooleanTF{#1}{\longleftarrow}{\longrightarrow}\quad}%
+}
+
+% Bold exclamation point
+\newcommand{\bang}[1][!]{\col[SciRed]{\textbf{#1}}}
+
+% Commands for accenting text
+\newcommand{\emp}[2][MilitSalmon]{\textcolor{#1}{\scshape #2}}
+\newcommand{\col}[2][EduBlue]{\textcolor{#1}{#2}}
+
+% Disable active slide indicator for backmatter
+\newif\ifactiveslide\activeslidetrue
+\newcommand{\backmatter}{\activeslidefalse}
+
+%-----------------------------------------------------------------------------------------
+% COLOR THEME
+%-----------------------------------------------------------------------------------------
+
+\usecolortheme{beaver}
+
+% Corporate colors
+\definecolor{SUMaroon}{RGB}{97,34,59}
+\definecolor{SUGold}{RGB}{183,153,98}
+\definecolor{SUOrange}{RGB}{220,68,5}
+\definecolor{SUWineRed}{RGB}{166,10,61}
+\definecolor{SUSoil}{RGB}{100,51,53}
+\definecolor{SUSeaGreen}{RGB}{130,204,174}
+
+% Basic neutral colors
+\definecolor{Charcoal}{RGB}{44,42,41}
+\definecolor{LightGrey}{RGB}{230,230,230}
+
+% Faculty colors
+\definecolor{AgriGreen}{RGB}{101,141,27}
+\definecolor{ArtsOrange}{RGB}{255,158,27}
+\definecolor{EconSkyBlue}{RGB}{44,204,211}
+\definecolor{EduBlue}{RGB}{34,61,113}
+\definecolor{EngYellow}{RGB}{235,169,0}
+\definecolor{LawRed}{RGB}{191,13,62}
+\definecolor{MedTeal}{RGB}{0,95,97}
+\definecolor{MilitSalmon}{RGB}{229,106,84}
+\definecolor{SciRed}{RGB}{210,39,48}
+\definecolor{TheoPurple}{RGB}{92,6,140}
+
+% Setting colors
+\setbeamercolor{titlelike}{fg=SUMaroon}
+\setbeamercolor{subtitle}{fg=Charcoal}
+\setbeamercolor{normal text}{fg=Charcoal}
+\setbeamercolor{structure}{fg=EduBlue}
+\setbeamercolor{section in head/foot}{fg=SciRed}
+\setbeamercolor{block title example}{fg=AgriGreen}
+\setbeamercolor{block title note}{fg=TheoPurple}
+\setbeamercolor{block title alert}{fg=SciRed}
+\setbeamercolor{alerted text}{fg=SciRed}
+
+%-----------------------------------------------------------------------------------------
+% FONT THEME
+%-----------------------------------------------------------------------------------------
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{libertine}
+
+\setbeamerfont{title}{size=\huge,series=\bfseries\rmfamily\scshape}
+\setbeamerfont{subtitle}{size=\large,series=\mdseries\itshape\normalfont}
+\setbeamerfont{block title}{series=\rmfamily}
+\setbeamerfont{author}{size=\large}
+
+%-----------------------------------------------------------------------------------------
+% SECTION SLIDES
+%-----------------------------------------------------------------------------------------
+
+% Import section slide graphic (optional)
+\def\secbgfile{sec-bg.pdf} % TODO Change to slide graphic name
+\pgfdeclareimage[width=0.55\linewidth]{sec-bg}{\secbgfile}
+
+\AtBeginSection[]{%
+\activeslidefalse
+\begin{frame}[noframenumbering]
+	\frametitle{\quad}
+	\vfill
+	\centering
+	{\usebeamerfont{title}\usebeamercolor[fg]{title}\huge\thesection.~\insertsection\par}
+	\IfFileExists{\secbgfile}{%
+		\vspace{1.5em}%
+		\pgfuseimage{sec-bg}%
+	}
+
+	\vspace{1em}
+	\vfill
+\end{frame}%
+\activeslidetrue
+}
+
+%-----------------------------------------------------------------------------------------
+% INNER THEME
+%-----------------------------------------------------------------------------------------
+
+\useinnertheme{rectangles}
+
+% Custom block for general notes
+\defbeamertemplate*{block note begin}{default}
+{
+	\par\vskip\medskipamount
+	\begin{beamercolorbox}[colsep*=.75ex]{block title note}
+		\usebeamerfont*{block title}\insertblocktitle
+	\end{beamercolorbox}
+	{\parskip0pt\par}
+	\ifbeamercolorempty[bg]{block title note}{}
+	{\ifbeamercolorempty[bg]{block body note}{}{\nointerlineskip\vskip-0.5pt}}
+	\usebeamerfont{block body note}
+	\begin{beamercolorbox}[colsep*=.75ex,vmode]{block body note}
+	\ifbeamercolorempty[bg]{block body note}{\vskip-.25ex}{\vskip-.75ex}\vbox{}
+	\setbeamertemplate{itemize item}{\tiny\color{TheoPurple}$\blacksquare$}
+	\setbeamercolor{enumerate item}{fg=TheoPurple}
+}
+
+\defbeamertemplate*{block note end}{default}
+{
+	\end{beamercolorbox}\vskip\smallskipamount
+}
+
+\newenvironment<>{note}[1]
+{
+	\begin{actionenv}#2
+	\def\insertblocktitle{#1}
+	\par
+	\only<presentation>{\setbeamercolor{local structure}{parent=note text}}
+	\usebeamertemplate{block note begin}
+}{
+	\par\usebeamertemplate{block note end}\end{actionenv}
+}
+
+%-----------------------------------------------------------------------------------------
+% OUTER THEME
+%-----------------------------------------------------------------------------------------
+
+\setbeamertemplate{navigation symbols}{}
+
+% Import corporate logo
+\pgfdeclareimage[height=3.5em]{large-uni-logo}{su-logo}
+\pgfdeclareimage[height=0.7cm]{uni-logo}{su-logo}
+\titlegraphic{\pgfuseimage{large-uni-logo}}
+
+% Frame title
+\defbeamertemplate*{frametitle}{su}[1][]
+{
+	\vspace{-1pt}
+	\begin{beamercolorbox}[wd=\paperwidth,ht=0.9cm]{frametitle}
+
+	\tikzexternaldisable
+	\begin{tikzpicture}
+	\useasboundingbox[fill=white] (0,0) rectangle (\the\paperwidth,0.9cm);
+
+	% Helper variables
+	\def\r{0.30}; % radius of slide wheel
+	\def\f{\insertframenumber}
+	\def\t{\inserttotalframenumber}
+
+	% Progress segments & slide count
+	\fill[SUMaroon] (0,0) rectangle (1,0.9) node[pos=.5] (c) {};
+	\draw [SUGold, line width=2, smooth, samples=40, shift={(c)},
+			domain=360*\f/\t:360] plot (90-\x:\r);
+	\ifnum\f>0\ifactiveslide % active slide segment
+		\draw [SUOrange, line width=2, smooth, samples=40, shift={(c)},
+				domain=360*(\f-1)/\t:360*\f/\t] plot (90-\x:\r);
+	\fi\fi
+	\foreach \j in {0,...,\t}
+		\draw[SUMaroon, line width=0.4] (c.center) -- +(90-360*\j/\t:\r+0.05);
+	\node[white, font=\tiny] at (c) {{\scriptsize\f{}}/\t};
+
+	% Frame title & subtitle
+	\tikzset{title/.style={anchor=base west,font=\large\bfseries}}
+	\tikzset{subtitle/.style={title,Charcoal,font=\scriptsize\mdseries\itshape}}
+
+	\ifx\insertframesubtitle\@empty{%
+		\node[title] at (1.15,0.33) {\insertframetitle};%
+	}\else{%
+		\node[title] at (1.15,0.48) {\insertframetitle};%
+		\node[subtitle] at (1.15,0.2) {\insertframesubtitle};%
+	}\fi
+
+	% Logo, top right
+	\node[anchor=south] at (\paperwidth-11pt,-2.0pt) {\pgfuseimage{uni-logo}};
+	\end{tikzpicture}
+	\tikzexternalenable
+	\end{beamercolorbox}
+}
+
+%-----------------------------------------------------------------------------------------
+
+% Foot line
+\defbeamertemplate*{footline}{su}[1][]
+{
+	\tikzexternaldisable
+	\begin{tikzpicture}
+
+	% Colored rectangles
+	\def\h{10pt}; % foot line height
+	\useasboundingbox[fill=LightGrey] (0,0) rectangle (\paperwidth,\h);
+	\fill[SUMaroon] (0pt,0pt) rectangle (\paperwidth/4,\h);
+
+	% Author & title
+	\node[anchor=base east,text=white] at (\paperwidth/4-2pt,\h/2-0.4em)
+		{\mdseries\insertauthor};
+	\node[anchor=base west,text=Charcoal] at (\paperwidth/4+2pt,\h/2-0.4em)
+		{\tiny\insertshorttitle};
+	\end{tikzpicture}
+	\tikzexternalenable
+}
+
+%-----------------------------------------------------------------------------------------
+
+% Title page
+\defbeamertemplate*{title page}{su}[1][]
+{
+	% Author
+	\medskip
+	\usebeamerfont{author}\insertauthor\hfill{\footnotesize\insertshortauthor}\par
+	\vspace{2.2em}
+
+	\tikzexternaldisable
+	\begin{tikzpicture}
+	\tikzset{heading/.style = {anchor=base west,text width=\paperwidth}}
+
+	% Title card
+	\def\h{4.5cm}; % title card height
+	\useasboundingbox (0,0) rectangle (\textwidth,\h);
+	\draw[SUGold,line width=3,rounded corners=1mm] (0,3.0cm) -- (0,\h) -- (3cm,\h);
+	\draw[SUGold,line width=3,rounded corners=1mm] (\textwidth,1.5cm) -- (\textwidth,0) -- (\textwidth-3cm,0);
+	\node[heading] at (8pt,3.4cm)
+		{\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle};
+	\node[heading] at (8pt,1.1cm) 
+		{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle};
+
+	% Logo, top right
+	\node[anchor=south] at (\textwidth-21pt,80pt) {\inserttitlegraphic};
+	\end{tikzpicture}
+	\tikzexternalenable
+
+	% Date & Institute
+	\vfill
+	{%
+	\setbeamercolor{description item}{fg=SUSoil}
+	\begin{description}[\hphantom{\faCalendar}]
+	\scriptsize
+		\item[\faMapMarker\hspace{0.15em}] \insertinstitute
+		\item[\faCalendar] \insertdate
+	\end{description}
+	}
+}
+
+\mode<all>

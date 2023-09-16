@@ -1,0 +1,125 @@
+\documentclass[%
+	%handout,% toggle to disable overlays -- useful for seeing overview of all slides
+	smaller%
+]{beamer}
+\usetheme{su}
+
+%-----------------------------------------------------------------------------------------
+% Custom imports
+%-----------------------------------------------------------------------------------------
+
+% TODO import any extra packages & tikz libraries
+%\usetikzlibrary{quotes,angles}
+
+%-----------------------------------------------------------------------------------------
+% Custom declarations / styling
+%-----------------------------------------------------------------------------------------
+
+% TODO add \newcommand, \DeclareMathOperator, etc here
+
+%-----------------------------------------------------------------------------------------
+% Metadata
+%-----------------------------------------------------------------------------------------
+
+\title[%
+	Title for footer
+]{\texorpdfstring{%
+	{\huge\mdseries\color{SUSoil} Seminar Name:}\\[0.1em]
+	\Huge Title for First Slide\\[0.2em]
+	Spanning Two Lines
+}{%
+	Title for PDF reader
+}}
+\subtitle{\texorpdfstring{\\
+	\col{Stylized} subtitle for first slide
+}{%
+	Subtitle for PDF reader
+}}
+\author[dario.trinchero@pm.me]{Dario Trinchero}
+\institute{Stellenbosch University}
+%\date{October 2020} % optionally override date
+
+%-----------------------------------------------------------------------------------------
+% Document
+%-----------------------------------------------------------------------------------------
+
+\begin{document}
+
+	\begin{frame}[plain,noframenumbering]
+		\titlepage
+	\end{frame}
+
+	%-------------------------------------------------------------------------------------
+
+	\begin{frame}[noframenumbering]
+		\frametitle{Talk Outline}
+
+		\begin{enumerate}
+			\setlength{\itemsep}{0.7em}
+			\item \emp{Introduction}
+			\item \emp{Background}
+				\begin{itemize}
+					\item Topic 1
+					\item Topic 2
+				\end{itemize}
+			\item \emp{Main content}
+				\begin{itemize}
+					\item Result 1
+					\item Result 2
+				\end{itemize}
+			\item \emp{Summary}
+		\end{enumerate}
+	\end{frame}
+
+	%-------------------------------------------------------------------------------------
+	\section{Introduction}
+	%-------------------------------------------------------------------------------------
+
+	\begin{frame}
+		\frametitle{High-level overview}
+		\framesubtitle{With subtitle!}
+
+		\begin{note}{Nota Bene (Note)}
+			Arrows\becomes logical connectives
+		\end{note}
+
+		\vfill
+		\begin{definition}[Definition]
+			Example definition
+		\end{definition}
+
+		\vfill
+		\begin{example}[Example]
+			Example example\becomes* remark \bang
+		\end{example}
+	\end{frame}
+
+	%-------------------------------------------------------------------------------------
+
+	\begin{frame}[fragile] % NOTE: fragile required for verbatim text
+		\frametitle{Continuing}
+
+		Some text with \emp{emphasis} in \emp[SciRed]{multiple colors}, as well as more
+		\col{subtle emphasis} by \col[EconSkyBlue]{color alone}. See {\small
+		\verb|beamerthemesu.sty|} for all defined colors.
+
+		\vfill
+		\begin{theorem}[Theorem]
+			Example theorem (see also lemma and corolary)
+		\end{theorem}
+		\begin{proof}
+			QED
+		\end{proof}
+	\end{frame}
+
+	%-------------------------------------------------------------------------------------
+	\backmatter % disable active slide indicator
+	%-------------------------------------------------------------------------------------
+
+	\begin{frame}[t,allowframebreaks,noframenumbering]
+		\frametitle{References}
+		\nocite{*}
+		\bibliography{references}
+	\end{frame}
+
+\end{document}
