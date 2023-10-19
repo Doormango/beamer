@@ -1,0 +1,38 @@
+name: Build & release
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-release:
+    name: Build PDF & update release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout beamer repo
+        uses: actions/checkout@v3
+
+      - name: Compile PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: presentation.tex
+
+      - name: Generate front page preview
+        run: |
+          sudo apt-get install poppler-utils
+          pdftoppm -jpeg -f 1 -l 1 presentation.pdf presentation
+        shell: sh
+
+      - name: Update latest release with new PDF & preview
+        uses: IsaacShelton/update-existing-release@v1.3.3
+        with:
+          token: ${{ github.token }}
+          release: "Latest beamer template PDF"
+          tag: "latest"
+          replace: true
+          files: >
+            presentation.pdf
+            presentation-1.jpg
+          body: "This release contains the latest compiled beamer template to PDF"
