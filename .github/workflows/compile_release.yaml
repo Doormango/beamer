@@ -22,7 +22,7 @@ jobs:
       - name: Generate front page preview
         run: |
           sudo apt-get install poppler-utils
-          pdftoppm -jpeg -f 1 -l 1 presentation.pdf presentation
+          pdftoppm -jpeg -f 1 -l 6 -o presentation.pdf presentation
         shell: sh
 
       - name: Update latest release with new PDF & preview
@@ -35,4 +35,6 @@ jobs:
           files: >
             presentation.pdf
             presentation-1.jpg
-          body: "This release contains the latest compiled beamer template to PDF"
+            presentation-3.jpg
+            presentation-5.jpg
+          body: "This release contains the latest beamer template compiled to PDF"
