@@ -28,6 +28,10 @@
 \bibliographystyle{apacann}
 \renewcommand{\cite}[1]{\shortciteauthorA{#1}~\citeyear{#1}}
 
+\AfterEndPreamble{% make urls same font as rest of bibliography
+\urlstyle{APACsame}%
+}
+
 %-----------------------------------------------------------------------------------------
 % CUSTOM COMMANDS
 %-----------------------------------------------------------------------------------------
@@ -148,7 +152,11 @@
 	\begin{beamercolorbox}[colsep*=.75ex,vmode]{block body note}
 	\ifbeamercolorempty[bg]{block body note}{\vskip-.25ex}{\vskip-.75ex}\vbox{}
 	\setbeamertemplate{itemize item}{\tiny\color{TheoPurple}$\blacksquare$}
+	\setbeamertemplate{itemize subitem}{\tiny\color{TheoPurple}$\blacksquare$}
+	\setbeamertemplate{itemize subsubitem}{\tiny\color{TheoPurple}$\blacksquare$}
 	\setbeamercolor{enumerate item}{fg=TheoPurple}
+	\setbeamercolor{enumerate subitem}{fg=TheoPurple}
+	\setbeamercolor{enumerate subsubitem}{fg=TheoPurple}
 }
 
 \defbeamertemplate*{block note end}{default}
